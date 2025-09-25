@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HikvisionAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73d90af3e81c38b4bc1148a49d86bf311b61edd8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73f30c5b6fd75273b29f2b26299c3f63673c4816")]
 [assembly: System.Reflection.AssemblyProductAttribute("HikvisionAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HikvisionAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -23,90 +23,129 @@ namespace HikvisionAPI.Controllers
         [HttpPost("open-door")]
         public IActionResult OpenDoor([FromBody] DoorControlRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid request");
-
-            bool success = _hikvisionService.OpenDoor(request, out string error);
-
-            if (!success)
+            try
             {
-                return StatusCode(400, new
+                if (!ModelState.IsValid)
+                    return BadRequest(new { message = "Invalid request" });
+
+                bool success = _hikvisionService.OpenDoor(request, out string error);
+
+                if (!success)
                 {
-                    message = "Failed to control door",
-                    error
+                    return BadRequest(new
+                    {
+                        message = "Failed to control door",
+                        error
+                    });
+                }
+
+                return Ok(new
+                {
+                    message = "Door command sent successfully"
                 });
             }
-
-            return Ok(new
+            catch (Exception ex)
             {
-                message = "Door command sent successfully"
-            });
+                return BadRequest(new
+                {
+                    message = "Unexpected error while controlling door",
+                    exception = ex.Message
+                });
+            }
         }
 
+        /// <summary>
+        /// Retrieves device information.
+        /// </summary>
+        /// <param name="request">Device connection details</param>
+        /// <returns>Device info or error</returns>
         [HttpPost("device-info")]
         public IActionResult GetDeviceInfo([FromBody] DeviceInfoRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid request");
-
-            var result = _hikvisionService.GetDeviceInfo(request, out string error);
-            if (result == null)
+            try
             {
-                return StatusCode(400, new
+                if (!ModelState.IsValid)
+                    return BadRequest(new { message = "Invalid request" });
+
+                var result = _hikvisionService.GetDeviceInfo(request, out string error);
+
+                if (result == null)
                 {
-                    message = "Failed to get device info",
-                    error
+                    return BadRequest(new
+                    {
+                        message = "Failed to get device info",
+                        error
+                    });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = "Unexpected error while fetching device info",
+                    exception = ex.Message
                 });
             }
-
-            return Ok(result);
         }
 
         [HttpGet("device-info-test")]
         public IActionResult GetDeviceInfoTest()
         {
-            var request = new DeviceInfoRequest
+            try
             {
-                Ip = "192.170.80.251",
-                Port = 8000,
-                Username = "admin",
-                Password = "Hikvision_2025"
-            };
-
-            var result = _hikvisionService.GetDeviceInfo(request, out string error);
-
-            if (result == null)
-            {
-                return StatusCode(400, new
+                var request = new DeviceInfoRequest
                 {
-                    message = "Failed to get device info",
-                    error
+                    Ip = "192.170.80.251",
+                    Port = 8000,
+                    Username = "admin",
+                    Password = "Hikvision_2025"
+                };
+
+                var result = _hikvisionService.GetDeviceInfo(request, out string error);
+
+                if (result == null)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Failed to get device info",
+                        error
+                    });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = "Unexpected error while fetching device info",
+                    exception = ex.Message
                 });
             }
-
-            return Ok(result); // return full object so you see what data is available
         }
 
         [HttpGet("open-door-test")]
         public IActionResult OpenDoorTest()
         {
-            var request = new DoorControlRequest
-            {
-                Ip = "192.170.80.251",
-                Port = 8000,
-                Username = "admin",
-                Password = "Hikvision_2025",
-                GatewayIndex = 1,         // <-- Adjust index if needed
-                Command = 1               // 1 = OPEN, 2 = CLOSE, etc.
-            };
-
             try
             {
+                var request = new DoorControlRequest
+                {
+                    Ip = "192.170.80.251",
+                    Port = 8000,
+                    Username = "admin",
+                    Password = "Hikvision_2025",
+                    GatewayIndex = 1,
+                    Command = 1
+                };
+
                 bool success = _hikvisionService.OpenDoor(request, out string error);
 
                 if (!success)
                 {
-                    return StatusCode(400, new
+                    return BadRequest(new
                     {
                         message = "Failed to open door",
                         error
@@ -120,14 +159,14 @@ namespace HikvisionAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(400, new
+                return BadRequest(new
                 {
-                    message = "An unexpected error occurred while attempting to open the door.",
+                    message = "Unexpected error while attempting to open the door",
                     exception = ex.Message
                 });
             }
-
         }
+
 
     }
 
