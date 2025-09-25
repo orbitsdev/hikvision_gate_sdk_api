@@ -61,7 +61,63 @@ namespace HikvisionAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("device-info-test")]
+        public IActionResult GetDeviceInfoTest()
+        {
+            var request = new DeviceInfoRequest
+            {
+                Ip = "192.170.80.251",
+                Port = 8000,
+                Username = "admin",
+                Password = "Hikvision_2025"
+            };
+
+            var result = _hikvisionService.GetDeviceInfo(request, out string error);
+
+            if (result == null)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Failed to get device info",
+                    error
+                });
+            }
+
+            return Ok(result); // return full object so you see what data is available
+        }
+
+        [HttpGet("open-door-test")]
+        public IActionResult OpenDoorTest()
+        {
+            var request = new DoorControlRequest
+            {
+                Ip = "192.170.80.251",
+                Port = 8000,
+                Username = "admin",
+                Password = "Hikvision_2025",
+                GatewayIndex = 1,         // <-- Adjust index if needed
+                Command = 1               // 1 = OPEN, 2 = CLOSE, etc.
+            };
+
+            bool success = _hikvisionService.OpenDoor(request, out string error);
+
+            if (!success)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Failed to open door",
+                    error
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Door opened successfully"
+            });
+        }
+
     }
 
 
-    }
+}

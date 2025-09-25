@@ -17,6 +17,16 @@
   },
   {
     "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
+    "Method": "GetDeviceInfoTest",
+    "RelativePath": "api/Hikvision/device-info-test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
     "Method": "OpenDoor",
     "RelativePath": "api/Hikvision/open-door",
     "HttpMethod": "POST",
@@ -29,6 +39,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
+    "Method": "OpenDoorTest",
+    "RelativePath": "api/Hikvision/open-door-test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

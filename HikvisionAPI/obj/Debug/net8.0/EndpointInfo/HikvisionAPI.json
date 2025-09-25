@@ -67,6 +67,30 @@
         }
       }
     },
+    "/api/Hikvision/device-info-test": {
+      "get": {
+        "tags": [
+          "Hikvision"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Hikvision/open-door-test": {
+      "get": {
+        "tags": [
+          "Hikvision"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
