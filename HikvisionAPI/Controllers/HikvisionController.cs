@@ -30,7 +30,7 @@ namespace HikvisionAPI.Controllers
 
             if (!success)
             {
-                return StatusCode(500, new
+                return StatusCode(400, new
                 {
                     message = "Failed to control door",
                     error
@@ -52,7 +52,7 @@ namespace HikvisionAPI.Controllers
             var result = _hikvisionService.GetDeviceInfo(request, out string error);
             if (result == null)
             {
-                return StatusCode(500, new
+                return StatusCode(400, new
                 {
                     message = "Failed to get device info",
                     error
@@ -77,7 +77,7 @@ namespace HikvisionAPI.Controllers
 
             if (result == null)
             {
-                return StatusCode(500, new
+                return StatusCode(400, new
                 {
                     message = "Failed to get device info",
                     error
@@ -104,7 +104,7 @@ namespace HikvisionAPI.Controllers
 
             if (!success)
             {
-                return StatusCode(500, new
+                return StatusCode(400, new
                 {
                     message = "Failed to open door",
                     error
