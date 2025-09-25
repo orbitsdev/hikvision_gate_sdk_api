@@ -14,7 +14,7 @@ namespace HikvisionAPI.Services
             Environment.SetEnvironmentVariable("PATH", dllPath + ";" + Environment.GetEnvironmentVariable("PATH"));
 
 
-            // Step 1: Init SDK
+            // Step 1: Init SDKw
             if (!HikvisionSdk.NET_DVR_Init())
             {
                 error = "NET_DVR_Init failed";

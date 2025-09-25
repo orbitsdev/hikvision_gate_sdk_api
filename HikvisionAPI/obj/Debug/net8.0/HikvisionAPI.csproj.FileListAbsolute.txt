@@ -63,3 +63,4 @@ C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\refint\Hik
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.pdb
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.genruntimeconfig.cache
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\ref\HikvisionAPI.dll
+C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.sourcelink.json
