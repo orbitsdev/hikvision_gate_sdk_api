@@ -100,21 +100,33 @@ namespace HikvisionAPI.Controllers
                 Command = 1               // 1 = OPEN, 2 = CLOSE, etc.
             };
 
-            bool success = _hikvisionService.OpenDoor(request, out string error);
+            try
+            {
+                bool success = _hikvisionService.OpenDoor(request, out string error);
 
-            if (!success)
+                if (!success)
+                {
+                    return StatusCode(400, new
+                    {
+                        message = "Failed to open door",
+                        error
+                    });
+                }
+
+                return Ok(new
+                {
+                    message = "Door opened successfully"
+                });
+            }
+            catch (Exception ex)
             {
                 return StatusCode(400, new
                 {
-                    message = "Failed to open door",
-                    error
+                    message = "An unexpected error occurred while attempting to open the door.",
+                    exception = ex.Message
                 });
             }
 
-            return Ok(new
-            {
-                message = "Door opened successfully"
-            });
         }
 
     }
