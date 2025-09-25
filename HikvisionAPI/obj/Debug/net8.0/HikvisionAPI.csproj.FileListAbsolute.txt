@@ -48,6 +48,7 @@ C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionA
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.sourcelink.json
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -63,4 +64,3 @@ C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\refint\Hik
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.pdb
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.genruntimeconfig.cache
 C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\ref\HikvisionAPI.dll
-C:\Users\User\source\repos\HikvisionAPI\HikvisionAPI\obj\Debug\net8.0\HikvisionAPI.sourcelink.json
