@@ -56,7 +56,7 @@ namespace HikvisionAPI.Services
             return result;
         }
 
-        public object GetDeviceInfo(DeviceInfoRequest request, out string error)
+        public object? GetDeviceInfo(DeviceInfoRequest request, out string error)
         {
             error = "";
 

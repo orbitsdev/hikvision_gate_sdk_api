@@ -46,21 +46,22 @@ namespace HikvisionAPI.Controllers
         [HttpPost("device-info")]
         public IActionResult GetDeviceInfo([FromBody] DeviceInfoRequest request)
         {
-            var result = _hikvisionService.GetDeviceInfo(request, out string error);
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid request");
 
+            var result = _hikvisionService.GetDeviceInfo(request, out string error);
             if (result == null)
             {
                 return StatusCode(500, new
                 {
-                    message = "Failed to retrieve device info",
+                    message = "Failed to get device info",
                     error
                 });
             }
 
-            return Ok(result); // Return raw struct as anonymous object
+            return Ok(result);
         }
-
     }
 
 
-}
+    }
