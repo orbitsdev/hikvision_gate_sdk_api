@@ -171,7 +171,7 @@ namespace HikvisionAPI.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<HikvisionLoginResponse> Login([FromBody] HikvisionLoginRequest request)
+        public ActionResult<HikvisionLoginResponse> Login()
         {
             var response = new HikvisionLoginResponse();
 
@@ -186,12 +186,20 @@ namespace HikvisionAPI.Controllers
            
 
             // Prepare login structs
+            //var struLoginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
+            //{
+            //    sDeviceAddress = request.Ip,
+            //    wPort = (ushort)request.Port,
+            //    sUserName = request.Username,
+            //    sPassword = request.Password
+            //};
+
             var struLoginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
             {
-                sDeviceAddress = request.Ip,
-                wPort = (ushort)request.Port,
-                sUserName = request.Username,
-                sPassword = request.Password
+                sDeviceAddress = "192.170.80.251",
+                wPort = 8000,
+                sUserName = "admin",
+                sPassword = "Hikvision_2025"
             };
 
             HikvisionSdk.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
