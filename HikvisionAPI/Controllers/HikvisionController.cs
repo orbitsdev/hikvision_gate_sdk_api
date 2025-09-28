@@ -191,9 +191,7 @@ namespace HikvisionAPI.Controllers
                 sDeviceAddress = request.Ip,
                 wPort = (ushort)request.Port,
                 sUserName = request.Username,
-                sPassword = request.Password,
-                bUseAsynLogin = 0,
-                byRes2 = new byte[128]
+                sPassword = request.Password
             };
 
             HikvisionSdk.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
@@ -202,7 +200,7 @@ namespace HikvisionAPI.Controllers
             int userId = HikvisionSdk.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
             if (userId >= 0)
             {
-
+                
                 response.Success = true;
                 response.Message = "Login Successful";
                 response.UserId = userId;
@@ -215,18 +213,7 @@ namespace HikvisionAPI.Controllers
                 int nErr = HikvisionSdk.NET_DVR_GetLastError();
                 response.Success = false;
                 response.ErrorCode = nErr;
-                
-
-                if (nErr == 7 )
-                {
-                    response.Message = "Username or password error!";
-                   
-                }
-                else
-                {
-                    response.Message = nErr.ToString();
-                }
-
+                response.Message = HikvisionErrorHelper.GetErrorMessage(nErr);
                 return BadRequest(response);
             }
         }

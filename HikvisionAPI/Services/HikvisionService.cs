@@ -4,6 +4,28 @@ using System.Runtime.InteropServices;
 using HikvisionAPI.Models;
 using HikvisionAPI.SdkInterop;
 
+
+public static class HikvisionErrorHelper
+{
+    public static string GetErrorMessage(int errorCode)
+    {
+        return errorCode switch
+        {
+            0 => "No error.",
+            1 => "Incorrect username or password.",
+            2 => "No permission.",
+            3 => "SDK not initialized.",
+            4 => "Incorrect channel number.",
+            5 => "Too many devices connected.",
+            6 => "SDK version mismatch.",
+            7 => "Device offline or network timeout.",
+            8 => "Failed to send data to device.",
+            9 => "Failed to receive data from device.",
+            _ => $"Unknown error (code {errorCode})"
+        };
+    }
+}
+
 namespace HikvisionAPI.Services
 {
     public class HikvisionService
