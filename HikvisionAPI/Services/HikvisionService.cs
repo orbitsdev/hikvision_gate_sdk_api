@@ -13,17 +13,17 @@ namespace HikvisionAPI.Services
         /// </summary>
         private void ConfigureLibraryPath()
         {
-            string dllPath = Path.Combine(AppContext.BaseDirectory, "sdk", "HCNetSDK");
+            string sdkPath = Path.Combine(AppContext.BaseDirectory, "SDK", "HCNetSDK");
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 string currentPath = Environment.GetEnvironmentVariable("PATH") ?? "";
-                Environment.SetEnvironmentVariable("PATH", dllPath + ";" + currentPath);
+                Environment.SetEnvironmentVariable("PATH", sdkPath + ";" + currentPath);
             }
             else
             {
                 string currentLdPath = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH") ?? "";
-                Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", dllPath + ":" + currentLdPath);
+                Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", sdkPath + ":" + currentLdPath);
             }
         }
 
