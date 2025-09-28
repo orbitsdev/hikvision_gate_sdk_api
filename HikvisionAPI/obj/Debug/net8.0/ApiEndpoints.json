@@ -27,6 +27,32 @@
   },
   {
     "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
+    "Method": "Login",
+    "RelativePath": "api/Hikvision/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "HikvisionAPI.Models.HikvisionLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HikvisionAPI.Models.HikvisionLoginResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
     "Method": "OpenDoor",
     "RelativePath": "api/Hikvision/open-door",
     "HttpMethod": "POST",

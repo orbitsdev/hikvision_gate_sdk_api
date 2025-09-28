@@ -3,6 +3,7 @@ using HikvisionAPI.Properties;
 using HikvisionAPI.SdkInterop;
 using HikvisionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HikvisionAPI.Controllers
 {
@@ -173,6 +174,15 @@ namespace HikvisionAPI.Controllers
         public ActionResult<HikvisionLoginResponse> Login([FromBody] HikvisionLoginRequest request)
         {
             var response = new HikvisionLoginResponse();
+
+            
+            if (!HikvisionSdk.NET_DVR_Init())
+            {
+                response.Success = false;
+                response.ErrorCode = 3;
+                response.Message = "NET_DVR_Init failed";
+                return BadRequest(response);
+            }
            
 
             // Prepare login structs
@@ -205,6 +215,7 @@ namespace HikvisionAPI.Controllers
                 int nErr = HikvisionSdk.NET_DVR_GetLastError();
                 response.Success = false;
                 response.ErrorCode = nErr;
+                
 
                 if (nErr == 7 )
                 {
