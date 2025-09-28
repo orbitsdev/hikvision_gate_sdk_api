@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HikvisionAPI.Models;
+﻿using HikvisionAPI.Models;
+using HikvisionAPI.Properties;
+using HikvisionAPI.SdkInterop;
 using HikvisionAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HikvisionAPI.Controllers
 {
@@ -166,6 +168,58 @@ namespace HikvisionAPI.Controllers
                 });
             }
         }
+
+        [HttpPost("login")]
+        public ActionResult<HikvisionLoginResponse> Login([FromBody] HikvisionLoginRequest request)
+        {
+            var response = new HikvisionLoginResponse();
+           
+
+            // Prepare login structs
+            var struLoginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
+            {
+                sDeviceAddress = request.Ip,
+                wPort = (ushort)request.Port,
+                sUserName = request.Username,
+                sPassword = request.Password,
+                bUseAsynLogin = 0,
+                byRes2 = new byte[128]
+            };
+
+            HikvisionSdk.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
+
+            // Attempt login
+            int userId = HikvisionSdk.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
+            if (userId >= 0)
+            {
+
+                response.Success = true;
+                response.Message = "Login Successful";
+                response.UserId = userId;
+                response.DeviceInfo = struDeviceInfoV40;
+
+                return Ok(response);
+            }
+            else
+            {
+                int nErr = HikvisionSdk.NET_DVR_GetLastError();
+                response.Success = false;
+                response.ErrorCode = nErr;
+
+                if (nErr == 7 )
+                {
+                    response.Message = "Username or password error!";
+                   
+                }
+                else
+                {
+                    response.Message = nErr.ToString();
+                }
+
+                return BadRequest(response);
+            }
+        }
+
 
 
     }
