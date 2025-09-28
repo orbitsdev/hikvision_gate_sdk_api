@@ -1,20 +1,38 @@
-﻿using HikvisionAPI.Models;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using HikvisionAPI.Models;
 using HikvisionAPI.SdkInterop;
-
 
 namespace HikvisionAPI.Services
 {
     public class HikvisionService
     {
+        /// <summary>
+        /// Ensure native library path is set depending on OS
+        /// </summary>
+        private void ConfigureLibraryPath()
+        {
+            string dllPath = Path.Combine(AppContext.BaseDirectory, "sdk", "HCNetSDK");
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                string currentPath = Environment.GetEnvironmentVariable("PATH") ?? "";
+                Environment.SetEnvironmentVariable("PATH", dllPath + ";" + currentPath);
+            }
+            else
+            {
+                string currentLdPath = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH") ?? "";
+                Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", dllPath + ":" + currentLdPath);
+            }
+        }
 
         public bool OpenDoor(DoorControlRequest request, out string error)
         {
             error = "";
-            string dllPath = Path.Combine(AppContext.BaseDirectory, "sdk", "HCNetSDK");
-            Environment.SetEnvironmentVariable("PATH", dllPath + ";" + Environment.GetEnvironmentVariable("PATH"));
+            ConfigureLibraryPath();
 
-
-            // Step 1: Init SDKw
+            // Step 1: Init SDK
             if (!HikvisionSdk.NET_DVR_Init())
             {
                 error = "NET_DVR_Init failed";
@@ -28,7 +46,8 @@ namespace HikvisionAPI.Services
                 wPort = (ushort)request.Port,
                 sUserName = request.Username,
                 sPassword = request.Password,
-                bUseAsynLogin = 0 // Sync login
+                bUseAsynLogin = 0,
+                byRes2 = new byte[128]
             };
 
             var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
@@ -59,9 +78,7 @@ namespace HikvisionAPI.Services
         public object? GetDeviceInfo(DeviceInfoRequest request, out string error)
         {
             error = "";
-
-            string dllPath = Path.Combine(AppContext.BaseDirectory, "sdk", "HCNetSDK");
-            Environment.SetEnvironmentVariable("PATH", dllPath + ";" + Environment.GetEnvironmentVariable("PATH"));
+            ConfigureLibraryPath();
 
             if (!HikvisionSdk.NET_DVR_Init())
             {
@@ -75,7 +92,8 @@ namespace HikvisionAPI.Services
                 wPort = (ushort)request.Port,
                 sUserName = request.Username,
                 sPassword = request.Password,
-                bUseAsynLogin = 0
+                bUseAsynLogin = 0,
+                byRes2 = new byte[128]
             };
 
             var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
@@ -91,13 +109,7 @@ namespace HikvisionAPI.Services
             HikvisionSdk.NET_DVR_Logout(userId);
             HikvisionSdk.NET_DVR_Cleanup();
 
-            // Just return the entire struDeviceV30 struct
             return deviceInfo;
         }
-
-
     }
-
-
-
 }

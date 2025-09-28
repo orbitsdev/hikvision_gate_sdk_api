@@ -10,8 +10,15 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Update="SDK\HCNetSDK\*.dll">
+	<ItemGroup Condition=" '$(RuntimeIdentifier)' == 'win-x64' ">
+		<None Include="SDK\HCNetSDK\*.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<!-- Copy Linux SDK SOs when publishing for linux-x64 -->
+	<ItemGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' ">
+		<None Include="SDK/HCNetSDK/*.so">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

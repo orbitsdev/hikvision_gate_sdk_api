@@ -20,6 +20,6 @@
         /// 2 = Remain Open
         /// 3 = Remain Closed
         /// </summary>
-        public int Command { get; set; } = 1;
+        public uint Command { get; set; } = 1;
     }
 }
