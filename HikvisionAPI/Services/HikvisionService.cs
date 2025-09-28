@@ -75,6 +75,42 @@ namespace HikvisionAPI.Services
             return result;
         }
 
+        //public object? GetDeviceInfo(DeviceInfoRequest request, out string error)
+        //{
+        //    error = "";
+        //    ConfigureLibraryPath();
+
+        //    if (!HikvisionSdk.NET_DVR_Init())
+        //    {
+        //        error = "SDK Init failed";
+        //        return null;
+        //    }
+
+        //    var loginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
+        //    {
+        //        sDeviceAddress = request.Ip,
+        //        wPort = (ushort)request.Port,
+        //        sUserName = request.Username,
+        //        sPassword = request.Password,
+        //        bUseAsynLogin = 0,
+        //        byRes2 = new byte[128]
+        //    };
+
+        //    var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
+
+        //    int userId = HikvisionSdk.NET_DVR_Login_V40(ref loginInfo, ref deviceInfo);
+        //    if (userId < 0)
+        //    {
+        //        error = $"Login failed. Error Code: {HikvisionSdk.NET_DVR_GetLastError()}";
+        //        HikvisionSdk.NET_DVR_Cleanup();
+        //        return null;
+        //    }
+
+        //    HikvisionSdk.NET_DVR_Logout(userId);
+        //    HikvisionSdk.NET_DVR_Cleanup();
+
+        //    return deviceInfo;
+        //}
         public object? GetDeviceInfo(DeviceInfoRequest request, out string error)
         {
             error = "";
@@ -86,6 +122,7 @@ namespace HikvisionAPI.Services
                 return null;
             }
 
+            // Prepare login info
             var loginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
             {
                 sDeviceAddress = request.Ip,
@@ -96,16 +133,35 @@ namespace HikvisionAPI.Services
                 byRes2 = new byte[128]
             };
 
+            // Prepare device info
             var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
+            // Initialize embedded struct fields if needed
+            deviceInfo.byRes = new byte[48]; // adjust length according to your struct definition
 
+            // Call login
             int userId = HikvisionSdk.NET_DVR_Login_V40(ref loginInfo, ref deviceInfo);
             if (userId < 0)
             {
-                error = $"Login failed. Error Code: {HikvisionSdk.NET_DVR_GetLastError()}";
+                int lastErr = HikvisionSdk.NET_DVR_GetLastError();
+
+                if (lastErr == 7) // NET_DVR_PASSWORD_ERROR
+                {
+                    error = "Username or password error!";
+                }
+                else if (lastErr == 153) // NET_DVR_USER_LOCKED
+                {
+                    error = "User is locked on the device!";
+                }
+                else
+                {
+                    error = $"Login failed. Error Code: {lastErr}";
+                }
+
                 HikvisionSdk.NET_DVR_Cleanup();
                 return null;
             }
 
+            // Clean up
             HikvisionSdk.NET_DVR_Logout(userId);
             HikvisionSdk.NET_DVR_Cleanup();
 
