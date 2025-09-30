@@ -175,7 +175,7 @@ namespace HikvisionAPI.Controllers
         {
             var response = new HikvisionLoginResponse();
 
-            
+
             if (!HikvisionSdk.NET_DVR_Init())
             {
                 response.Success = false;
@@ -183,7 +183,7 @@ namespace HikvisionAPI.Controllers
                 response.Message = "NET_DVR_Init failed";
                 return BadRequest(response);
             }
-           
+
 
             // Prepare login structs
             //var struLoginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
@@ -208,7 +208,7 @@ namespace HikvisionAPI.Controllers
             int userId = HikvisionSdk.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
             if (userId >= 0)
             {
-                
+
                 response.Success = true;
                 response.Message = "Login Successful";
                 response.UserId = userId;
@@ -223,6 +223,108 @@ namespace HikvisionAPI.Controllers
                 response.ErrorCode = nErr;
                 response.Message = HikvisionErrorHelper.GetErrorMessage(nErr);
                 return BadRequest(response);
+            }
+        }
+
+
+
+        [HttpGet("close-door")]
+        public IActionResult CloseDoorHardcoded()
+        {
+            try
+            {
+                // Init SDK
+                HikvisionSdk.NET_DVR_Init();
+
+                // Login info
+                var loginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
+                {
+                    sDeviceAddress = "192.170.80.251",
+                    wPort = 8000,
+                    sUserName = "admin",
+                    sPassword = "Hikvision_2025",
+                    bUseAsynLogin = 0
+                };
+
+                var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
+                int userId = HikvisionSdk.NET_DVR_Login_V40(ref loginInfo, ref deviceInfo);
+
+                if (userId < 0)
+                {
+                    int err = HikvisionSdk.NET_DVR_GetLastError();
+                    return BadRequest(new { message = "Login failed", error = err });
+                }
+
+                // Close door (command = 0)
+                bool success = HikvisionSdk.NET_DVR_ControlGateway(userId, 1, 0);
+
+                if (!success)
+                {
+                    int err = HikvisionSdk.NET_DVR_GetLastError();
+                    return BadRequest(new { message = "Failed to close door", error = err });
+                }
+
+                // Logout and cleanup
+                HikvisionSdk.NET_DVR_Logout(userId);
+                HikvisionSdk.NET_DVR_Cleanup();
+
+                return Ok(new { message = "Door closed successfully (hardcoded)" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Unexpected error", exception = ex.Message });
+            }
+        }
+
+
+        /// <summary>
+        /// Hardcoded test endpoint to open the door.
+        /// </summary>
+        [HttpGet("open-door-v2")]
+        public IActionResult OpenDoorHardcoded()
+        {
+            try
+            {
+                // Init SDK
+                HikvisionSdk.NET_DVR_Init();
+
+                // Login info
+                var loginInfo = new HikvisionSdk.NET_DVR_USER_LOGIN_INFO
+                {
+                    sDeviceAddress = "192.170.80.251",
+                    wPort = 8000,
+                    sUserName = "admin",
+                    sPassword = "Hikvision_2025",
+                    bUseAsynLogin = 0
+                };
+
+                var deviceInfo = new HikvisionSdk.NET_DVR_DEVICEINFO_V40();
+                int userId = HikvisionSdk.NET_DVR_Login_V40(ref loginInfo, ref deviceInfo);
+
+                if (userId < 0)
+                {
+                    int err = HikvisionSdk.NET_DVR_GetLastError();
+                    return BadRequest(new { message = "Login failed", error = err });
+                }
+
+                // Open door (command = 1)
+                bool success = HikvisionSdk.NET_DVR_ControlGateway(userId, 1, 1);
+
+                if (!success)
+                {
+                    int err = HikvisionSdk.NET_DVR_GetLastError();
+                    return BadRequest(new { message = "Failed to open door", error = err });
+                }
+
+                // Logout and cleanup
+                HikvisionSdk.NET_DVR_Logout(userId);
+                HikvisionSdk.NET_DVR_Cleanup();
+
+                return Ok(new { message = "Door opened successfully (hardcoded)" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Unexpected error", exception = ex.Message });
             }
         }
 

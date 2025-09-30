@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
+    "Method": "CloseDoorHardcoded",
+    "RelativePath": "api/Hikvision/close-door",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
     "Method": "GetDeviceInfo",
     "RelativePath": "api/Hikvision/device-info",
     "HttpMethod": "POST",
@@ -32,13 +42,7 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "HikvisionAPI.Models.HikvisionLoginRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "HikvisionAPI.Models.HikvisionLoginResponse",
@@ -71,6 +75,16 @@
     "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
     "Method": "OpenDoorTest",
     "RelativePath": "api/Hikvision/open-door-test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HikvisionAPI.Controllers.HikvisionController",
+    "Method": "OpenDoorHardcoded",
+    "RelativePath": "api/Hikvision/open-door-v2",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

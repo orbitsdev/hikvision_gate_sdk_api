@@ -96,25 +96,6 @@
         "tags": [
           "Hikvision"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HikvisionLoginRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HikvisionLoginRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/HikvisionLoginRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK",
@@ -135,6 +116,30 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Hikvision/close-door": {
+      "get": {
+        "tags": [
+          "Hikvision"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Hikvision/open-door-v2": {
+      "get": {
+        "tags": [
+          "Hikvision"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -229,28 +234,6 @@
           "command": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "HikvisionLoginRequest": {
-        "type": "object",
-        "properties": {
-          "ip": {
-            "type": "string",
-            "nullable": true
-          },
-          "port": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "username": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
